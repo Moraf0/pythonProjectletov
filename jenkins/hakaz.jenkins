@@ -19,7 +19,7 @@ pipeline{
                 docker compose build topor-service
                 docker run -d \
                       --name topor-container \
-                      -p 8000:8242 \
+                      -p 8022:8242 \
                       topor-image
                 """
                 }

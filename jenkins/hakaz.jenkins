@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+
+    stages {
+        stage("get proj") {
+            steps {
+                git branch: 'main', url: "https://github.com/saulg00dm4n/FastAPI-Planner_service"
+            }
+
+        }
+
+        stage("start") {
+            steps {
+                script {
+                sh """
+                docker rm -f topor-container
+                docker rmi topor-image
+
+                docker compose build topor-service
+                docker run -d \
+                      --name topor-container \
+                      -p 8000:8242 \
+                      topor-image
+                """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
